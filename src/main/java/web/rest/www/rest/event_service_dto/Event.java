@@ -39,7 +39,6 @@ public class Event implements Serializable {
     }
 
     public Event() {
-
     }
 
     public Integer getId() {
@@ -101,5 +100,18 @@ public class Event implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, title, place, speaker, eventType, dateTime);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Event{");
+        sb.append("id=").append(id);
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", place='").append(place).append('\'');
+        sb.append(", speaker='").append(speaker).append('\'');
+        sb.append(", eventType='").append(eventType).append('\'');
+        sb.append(", dateTime=").append(dateTime);
+        sb.append('}');
+        return sb.toString();
     }
 }

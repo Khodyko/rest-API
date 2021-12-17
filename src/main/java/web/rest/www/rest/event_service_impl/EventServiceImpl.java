@@ -36,8 +36,6 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event getEvent(Event event) throws NoEventException {
-
-
         return this.getById(event.getId());
     }
 
@@ -51,7 +49,6 @@ public class EventServiceImpl implements EventService {
     @Override
     public Event updateEvent(Event event) {
         eventRepo.save(event);
-
         return event;
     }
 
@@ -59,7 +56,6 @@ public class EventServiceImpl implements EventService {
     public void updateEvent(Integer id, String title, String place, String speaker,
                             String eventType, Date dateTime) {
         Event event = new Event(id, title, place, speaker, eventType, dateTime);
-
     }
 
     @Override

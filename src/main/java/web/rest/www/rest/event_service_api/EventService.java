@@ -1,9 +1,7 @@
 package web.rest.www.rest.event_service_api;
 
-
 import web.rest.www.rest.eventException.NoEventException;
 import web.rest.www.rest.event_service_dto.Event;
-
 import java.util.Date;
 import java.util.List;
 

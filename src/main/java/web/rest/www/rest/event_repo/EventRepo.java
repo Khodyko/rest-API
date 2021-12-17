@@ -1,15 +1,10 @@
 package web.rest.www.rest.event_repo;
 
-
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.format.annotation.DateTimeFormat;
 import web.rest.www.rest.event_service_dto.Event;
-
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

@@ -23,7 +23,6 @@ public class EventServiceController {
             return eventService.createEvent(event);
         } catch (NoEventException e) {
             e.getMessage();
-
             return null;
         }
     }
