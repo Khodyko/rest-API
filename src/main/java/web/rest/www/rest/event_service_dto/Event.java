@@ -69,6 +69,14 @@ public class Event implements Serializable {
         return speaker;
     }
 
+    public Event(String title, String place, String speaker, String eventType, Date dateTime) {
+        this.title = title;
+        this.place = place;
+        this.speaker = speaker;
+        this.eventType = eventType;
+        this.dateTime = dateTime;
+    }
+
     public void setSpeaker(String speaker) {
         this.speaker = speaker;
     }

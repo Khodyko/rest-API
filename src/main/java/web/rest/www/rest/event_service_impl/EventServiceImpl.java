@@ -27,9 +27,9 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event createEvent(Integer id, String title, String place, String speaker,
+    public Event createEvent( String title, String place, String speaker,
                              String eventType, Date dateTime) throws NoEventException {
-        Event event = new Event(id, title, place, speaker, eventType, dateTime);
+        Event event = new Event( title, place, speaker, eventType, dateTime);
         eventRepo.save(event);
         return this.getById(event.getId());
     }
