@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import web.rest.www.rest.eventException.NoEventException;
 import web.rest.www.rest.event_service_dto.Event;
@@ -19,7 +20,7 @@ public class EventServiceController {
     @Autowired
     EventServiceImpl eventService;
 
-
+    @ResponseStatus(code = HttpStatus.CREATED)
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     Event createEvent(@RequestBody Event event) {
         try {
@@ -30,7 +31,7 @@ public class EventServiceController {
         }
     }
 
-
+    @ResponseStatus(code = HttpStatus.CREATED)
     @RequestMapping(value = "/create-param", method = RequestMethod.POST)
     @ApiImplicitParam(name="dateTime", required  =  true ,value = "2021-12-20T08:32:11.847Z", dataType  =  "string ", paramType = "query")
     Event createEvent(String title, String place, String speaker,
@@ -57,7 +58,7 @@ public class EventServiceController {
         }
     }
 
-
+    @ResponseStatus(code = HttpStatus.OK)
     @RequestMapping(value = "/get-by-param", method = RequestMethod.GET)
     Event getEventByParam(Integer id, String title, String place, String speaker,
                           String eventType,
@@ -72,13 +73,13 @@ public class EventServiceController {
         }
     }
 
-
+    @ResponseStatus(code = HttpStatus.OK)
     @RequestMapping(value = "/put", method =RequestMethod.PUT)
     Event update(@RequestBody Event event) {
         return eventService.updateEvent(event);
     }
 
-
+    @ResponseStatus(code = HttpStatus.OK)
     @RequestMapping(value = "/put-by-param", method = RequestMethod.PUT)
     Event update(Integer id, String title, String place, String speaker,
                  String eventType, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateTime) {
@@ -86,30 +87,29 @@ public class EventServiceController {
         return eventService.updateEvent(event);
     }
 
-
+    @ResponseStatus(code = HttpStatus.OK)
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     void delete(@RequestBody Event event) {
         eventService.deleteEvent(event);
     }
 
-
+    @ResponseStatus(code = HttpStatus.OK)
     @RequestMapping(value = "/delete-by-param", method = RequestMethod.DELETE)
     void delete(Integer id, String title, String place, String speaker,
                 String eventType, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateTime) {
         Event event = new Event(id, title, place, speaker, eventType, dateTime);
         eventService.deleteEvent(event);
     }
-
+    @ResponseStatus(code = HttpStatus.OK)
     @GetMapping
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     List<Event> getAllEvents() {
         return eventService.getAllEvents();
     }
 
-
+    @ResponseStatus(code = HttpStatus.OK)
     @RequestMapping(value = "/all-by-title", method = RequestMethod.GET)
     List<Event> getAllEventsByTitle(@RequestParam String title) {
         return eventService.getAllEventsByTitle(title);
-
     }
 }
