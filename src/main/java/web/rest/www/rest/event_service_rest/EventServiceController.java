@@ -11,6 +11,8 @@ import web.rest.www.rest.eventException.NoEventException;
 import web.rest.www.rest.event_service_dto.Event;
 import web.rest.www.rest.event_service_impl.EventServiceImpl;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -22,11 +24,12 @@ public class EventServiceController {
 
     @ResponseStatus(code = HttpStatus.CREATED)
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    Event createEvent(@RequestBody Event event) {
+    Event createEvent(@RequestBody Event event, HttpServletResponse response) {
         try {
             return eventService.createEvent(event);
         } catch (NoEventException e) {
             e.getMessage();
+            response.setStatus(404);
             return null;
         }
     }
@@ -35,12 +38,13 @@ public class EventServiceController {
     @RequestMapping(value = "/create-param", method = RequestMethod.POST)
     @ApiImplicitParam(name="dateTime", required  =  true ,value = "2021-12-20T08:32:11.847Z", dataType  =  "string ", paramType = "query")
     Event createEvent(String title, String place, String speaker,
-                      String eventType, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateTime) {
-//        Date dateTimeConverted= Date.from(Instant.parse(dateTime));
+                      String eventType, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateTime, HttpServletResponse response) {
+
         try {
             return eventService.createEvent( title, place, speaker, eventType, dateTime);
         } catch (NoEventException e) {
             e.getMessage();
+            response.setStatus(404);
             return null;
         }
     }
@@ -48,12 +52,14 @@ public class EventServiceController {
 
     @RequestMapping(value="/get", method = RequestMethod.GET)
     Event getEvent(Integer id, String title, String place, String speaker,
-                   String eventType, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Param(value = "dateTime") Date dateTime) {
+                   String eventType, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Param(value = "dateTime") Date dateTime
+                    , HttpServletResponse response) {
         Event event = new Event(id, title, place, speaker, eventType, dateTime);
         try {
             return eventService.getEvent(event);
         } catch (NoEventException e) {
             e.printStackTrace();
+            response.setStatus(404);
             return null;
         }
     }
@@ -62,13 +68,15 @@ public class EventServiceController {
     @RequestMapping(value = "/get-by-param", method = RequestMethod.GET)
     Event getEventByParam(Integer id, String title, String place, String speaker,
                           String eventType,
-                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateTime) {
+                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateTime
+                            , HttpServletResponse response) {
         System.out.println("works");
 
         try {
             return eventService.getEvent(id, title, place, speaker, eventType, dateTime);
         } catch (NoEventException e) {
             e.printStackTrace();
+            response.setStatus(404);
             return null;
         }
     }
@@ -82,34 +90,37 @@ public class EventServiceController {
     @ResponseStatus(code = HttpStatus.OK)
     @RequestMapping(value = "/put-by-param", method = RequestMethod.PUT)
     Event update(Integer id, String title, String place, String speaker,
-                 String eventType, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateTime) {
+                 String eventType, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateTime
+                  , HttpServletResponse response) {
         Event event = new Event(id, title, place, speaker, eventType, dateTime);
         return eventService.updateEvent(event);
     }
 
     @ResponseStatus(code = HttpStatus.OK)
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    void delete(@RequestBody Event event) {
+    void delete(@RequestBody Event event,  HttpServletResponse response) {
         eventService.deleteEvent(event);
     }
 
     @ResponseStatus(code = HttpStatus.OK)
     @RequestMapping(value = "/delete-by-param", method = RequestMethod.DELETE)
     void delete(Integer id, String title, String place, String speaker,
-                String eventType, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateTime) {
+                String eventType, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateTime
+            , HttpServletResponse response) {
         Event event = new Event(id, title, place, speaker, eventType, dateTime);
         eventService.deleteEvent(event);
     }
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    List<Event> getAllEvents() {
+    List<Event> getAllEvents( HttpServletResponse response) {
         return eventService.getAllEvents();
     }
 
     @ResponseStatus(code = HttpStatus.OK)
     @RequestMapping(value = "/all-by-title", method = RequestMethod.GET)
-    List<Event> getAllEventsByTitle(@RequestParam String title) {
+    List<Event> getAllEventsByTitle(@RequestParam String title
+            , HttpServletResponse response) {
         return eventService.getAllEventsByTitle(title);
     }
 }
