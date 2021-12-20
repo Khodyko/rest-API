@@ -2,20 +2,14 @@ package web.rest.www.rest.event_service_rest;
 
 
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiParam;
-import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-
-
 import web.rest.www.rest.eventException.NoEventException;
 import web.rest.www.rest.event_service_dto.Event;
 import web.rest.www.rest.event_service_impl.EventServiceImpl;
 
-import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
