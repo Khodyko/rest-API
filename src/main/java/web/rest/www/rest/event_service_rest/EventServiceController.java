@@ -13,9 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
-
 @RestController
-@RequestMapping("/events")
+@RequestMapping("/event")
 public class EventServiceController {
     private final EventServiceImpl eventService;
 
@@ -25,7 +24,7 @@ public class EventServiceController {
     }
 
     @ResponseStatus(code = HttpStatus.CREATED)
-    @PostMapping()
+    @PostMapping
     public Event createEvent(@RequestBody Event event, HttpServletResponse response) {
         Event eventFromDB = eventService.saveEvent(event);
         if (eventFromDB == null) {
@@ -35,10 +34,10 @@ public class EventServiceController {
     }
 
     @ResponseStatus(code = HttpStatus.CREATED)
-    @PostMapping(value = "/by-param")
+    @PostMapping("/{title}")
     @ApiImplicitParam(name = "dateTime", required = true, value = "2021-12-20T08:32:11.847Z",
             dataType = "string ", paramType = "query")
-    public Event createEvent(String title, String place, String speaker, String eventType,
+    public Event createEvent(@PathVariable(value = "title") String title, String place, String speaker, String eventType,
                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateTime,
                              HttpServletResponse response) {
         Event eventFromDB = eventService.saveEvent(title, place, speaker, eventType, dateTime);
@@ -48,7 +47,8 @@ public class EventServiceController {
         return eventFromDB;
     }
 
-    @GetMapping()
+    @ResponseStatus(code = HttpStatus.OK)
+    @GetMapping
     public Event getEvent(Integer id, String title, String place, String speaker,
                           String eventType,
                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Param(value = "dateTime") Date dateTime,
@@ -61,8 +61,8 @@ public class EventServiceController {
     }
 
     @ResponseStatus(code = HttpStatus.OK)
-    @GetMapping(value = "/by-id")
-    public Event getEventByParam(Integer id, HttpServletResponse response) {
+    @GetMapping("/{id}")
+    public Event getEventByParam(@PathVariable Integer id, HttpServletResponse response) {
         Event eventFromDB = eventService.getById(id);
         if (eventFromDB == null) {
             response.setStatus(HttpStatus.NOT_FOUND.value());
@@ -71,20 +71,20 @@ public class EventServiceController {
     }
 
     @ResponseStatus(code = HttpStatus.OK)
-    @PutMapping(value = "/put")
+    @PutMapping
     public Event update(@RequestBody Event event) {
         return event;
     }
 
     @ResponseStatus(code = HttpStatus.OK)
-    @PutMapping(value = "/by-param")
-    public Event update(Integer id, String title, String place, String speaker,
+    @PutMapping("/{id}")
+    public Event update(@PathVariable Integer id, String title, String place, String speaker,
                         String eventType, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateTime) {
         return new Event(id, title, place, speaker, eventType, dateTime);
     }
 
     @ResponseStatus(code = HttpStatus.OK)
-    @DeleteMapping()
+    @DeleteMapping
     public void delete(@RequestBody Event event, HttpServletResponse response) {
         if (event == null) {
             response.setStatus(HttpStatus.NO_CONTENT.value());
@@ -94,8 +94,8 @@ public class EventServiceController {
     }
 
     @ResponseStatus(code = HttpStatus.OK)
-    @DeleteMapping(value = "/by-id")
-    public void delete(Integer id, HttpServletResponse response) {
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable(value = "id") Integer id, HttpServletResponse response) {
         Event event = eventService.getById(id);
         if (event == null) {
             response.setStatus(HttpStatus.NO_CONTENT.value());
@@ -115,8 +115,8 @@ public class EventServiceController {
     }
 
     @ResponseStatus(code = HttpStatus.OK)
-    @GetMapping(value = "/all-by-title")
-    public List<Event> getAllEventsByTitle(@RequestParam String title, HttpServletResponse response) {
+    @GetMapping("/{title}")
+    public List<Event> getAllEventsByTitle(@PathVariable String title, HttpServletResponse response) {
         List<Event> events = eventService.getAllEventsByTitle(title);
         if (events == null || events.size() == 0) {
             response.setStatus(HttpStatus.NO_CONTENT.value());
