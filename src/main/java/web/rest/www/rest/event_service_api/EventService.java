@@ -1,27 +1,23 @@
 package web.rest.www.rest.event_service_api;
 
-import web.rest.www.rest.eventException.NoEventException;
-import web.rest.www.rest.event_service_dto.Event;
-
 import java.util.Date;
 import java.util.List;
 
+import web.rest.www.rest.event_service_dto.Event;
+
 
 public interface EventService {
-    Event createEvent(Event event) throws NoEventException;
+    Event saveEvent(Event event);
 
-    Event createEvent( String title, String place, String speaker,
-                      String eventType, Date dateTime) throws NoEventException;
+    Event saveEvent(String title, String place, String speaker,
+                    String eventType, Date dateTime);
 
-    Event updateEvent(Event event);
+    void updateEvent(Event event);
 
-    void updateEvent(Integer id, String title, String place, String speaker,
-                     String eventType, Date dateTime);
+    Event getEvent(Event event);
 
-    Event getEvent(Event event) throws NoEventException;
-
-    Event getEvent(Integer id, String title, String place, String speaker,
-                   String eventType, Date dateTime) throws NoEventException;
+    Event getEvent(Integer id, String title, String place,
+                   String speaker, String eventType, Date dateTime);
 
     void deleteEvent(Event event);
 

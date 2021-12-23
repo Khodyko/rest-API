@@ -25,11 +25,8 @@ public class Event implements Serializable {
     @Column(name = "date_time")
     private Date dateTime;
 
-    public Event(
-            Integer id,
-            String title,
-            String place, String speaker,
-            String eventType, Date dateTime) {
+    public Event(Integer id, String title, String place,
+                 String speaker, String eventType, Date dateTime) {
         this.id = id;
         this.title = title;
         this.place = place;
@@ -38,7 +35,15 @@ public class Event implements Serializable {
         this.dateTime = dateTime;
     }
 
-    public Event() {
+    public Event() {}
+
+    public Event(String title, String place, String speaker,
+                 String eventType, Date dateTime) {
+        this.title = title;
+        this.place = place;
+        this.speaker = speaker;
+        this.eventType = eventType;
+        this.dateTime = dateTime;
     }
 
     public Integer getId() {
@@ -69,14 +74,6 @@ public class Event implements Serializable {
         return speaker;
     }
 
-    public Event(String title, String place, String speaker, String eventType, Date dateTime) {
-        this.title = title;
-        this.place = place;
-        this.speaker = speaker;
-        this.eventType = eventType;
-        this.dateTime = dateTime;
-    }
-
     public void setSpeaker(String speaker) {
         this.speaker = speaker;
     }
@@ -102,11 +99,14 @@ public class Event implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Event)) return false;
         Event event = (Event) o;
-        return id.equals(event.id) && title.equals(event.title) && place.equals(event.place) && speaker.equals(event.speaker) && eventType.equals(event.eventType) && dateTime.equals(event.dateTime);
+        return id.equals(event.id) && title.equals(event.title) &&
+                place.equals(event.place) && speaker.equals(event.speaker) &&
+                eventType.equals(event.eventType) && dateTime.equals(event.dateTime);
     }
 
     @Override
     public int hashCode() {
+
         return Objects.hash(id, title, place, speaker, eventType, dateTime);
     }
 
